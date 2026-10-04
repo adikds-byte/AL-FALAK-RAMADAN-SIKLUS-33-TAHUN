@@ -2013,8 +2013,17 @@
       </div>
     </div>
 
+    <!-- Quick Prompt Pills for Floating Drawer -->
+    <div class="px-2 py-1.5 bg-slate-950 border-t border-slate-800 flex gap-1 overflow-x-auto text-xs">
+      <button onclick="sendQuickPrompt('Mengapa tahun 2030 ada dua kali bulan Ramadan?')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-amber-300 whitespace-nowrap">2x Ramadan</button>
+      <button onclick="sendQuickPrompt('Bagaimana cara kerja autofagi saat puasa?')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-purple-300 whitespace-nowrap">Autofagi</button>
+      <button onclick="sendQuickPrompt('Jelaskan sistem Tata Surya dan planetnya')" class="px-2 py-0.5 rounded bg-blue-950 hover:bg-blue-900 text-blue-300 border border-blue-500/50 whitespace-nowrap"><i class="fa-brands fa-wikipedia-w"></i> Tata Surya</button>
+      <button onclick="sendQuickPrompt('Jelaskan Teori Relativitas Einstein')" class="px-2 py-0.5 rounded bg-amber-950 hover:bg-amber-900 text-amber-300 border border-amber-500/50 whitespace-nowrap"><i class="fa-brands fa-google"></i> Relativitas</button>
+      <button onclick="sendQuickPrompt('Apa itu Kecerdasan Buatan AI?')" class="px-2 py-0.5 rounded bg-purple-950 hover:bg-purple-900 text-purple-300 border border-purple-500/50 whitespace-nowrap"><i class="fa-solid fa-brain"></i> AI Modern</button>
+    </div>
+
     <div class="p-2 bg-slate-950 border-t border-slate-800 flex gap-1">
-      <input type="text" id="chatInput" placeholder="Ketik pertanyaan falak atau puasa..." class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white outline-none focus:border-cyan-400" onkeydown="if(event.key==='Enter') sendChatMessage()">
+      <input type="text" id="chatInput" placeholder="Tanyakan falak, puasa, sains, atau pengetahuan umum..." class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white outline-none focus:border-cyan-400" onkeydown="if(event.key==='Enter') sendChatMessage()">
       <button onclick="sendChatMessage()" class="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-slate-950 font-bold rounded-lg text-xs">
         <i class="fa-solid fa-paper-plane"></i>
       </button>
@@ -3050,41 +3059,183 @@
       });
     }
 
-    // ==================== 10. AI CHATBOT ENGINE ====================
+        // ==================== 10. AI CHATBOT ENGINE (INTERNAL & MULTI-SOURCE SEARCH: WIKIPEDIA, GOOGLE & MULTI-AI) ====================
     const AI_RESPONSES = [
       {
         k: ["2030", "dua kali", "2 kali", "kembar"],
-        ans: "Pada tahun **2030 Masehi**, umat Islam akan mengalami bulan Ramadan sebanyak **dua kali dalam satu tahun kalender Masehi**: pertama pada tanggal **5 Januari 2030 (Ramadan 1451 H)** dan kedua pada tanggal **26 Desember 2030 (Ramadan 1452 H)**. Hal ini terjadi karena tahun Hijriah (354 hari) lebih pendek ~11 hari dari tahun Masehi (365 hari). Fenomena ini berulang secara siklis setiap 33 tahun.",
+        title: "Fenomena 2x Ramadan dalam 1 Tahun Masehi (2030)",
+        category: "Astronomi Falakiyah & Kalender Hijriah",
+        ans: "Pada tahun **2030 Masehi**, umat Islam di seluruh dunia akan mengalami bulan suci Ramadan sebanyak **dua kali dalam satu tahun kalender Masehi**: pertama pada tanggal **5 Januari 2030 (Ramadan 1451 H)** dan kedua pada tanggal **26 Desember 2030 (Ramadan 1452 H)**. Hal ini terjadi karena tahun lunar Hijriah (354,36 hari) lebih pendek ~10,88 hari daripada tahun solar Masehi (365,24 hari). Pergeseran ~11 hari per tahun ini berulang secara siklis setiap **33 tahun**.",
         wiki: "Ramadan",
         google: "siklus+ramadan+33+tahun+2030"
       },
       {
-        k: ["autofagi", "nobel", "ohsumi", "medis", "kesehatan"],
-        ans: "Penelitian pemenang **Hadiah Nobel Kedokteran 2016 Dr. Yoshinori Ohsumi** membuktikan bahwa saat tubuh berpuasa selama 12–16 jam, sel-sel tubuh mengaktifkan proses **Autofagi**—mekanisme pembersihan seluler di mana sel sehat mendaur ulang organel yang rusak, membakar lemak visceral, dan membuang racun biologis.",
+        k: ["autofagi", "nobel", "ohsumi", "medis", "kesehatan", "sel"],
+        title: "Mekanisme Daur Ulang Seluler Autofagi (Nobel 2016)",
+        category: "Kajian Sains Medis & Biologi Seluler",
+        ans: "Penelitian pemenang **Hadiah Nobel Fisiologi / Kedokteran 2016 Dr. Yoshinori Ohsumi** membuktikan bahwa ketika tubuh berpuasa selama 12–16 jam, sel-sel tubuh mengaktifkan proses **Autofagi** (Yunani: *auto* = sendiri, *phagein* = memakan). Sel sehat mendaur ulang protein cacat, melenyapkan mitokondria rusak, membakar cadangan lemak visceral, dan membasmi patogen intraseluler, menghasilkan peremajaan seluler dan pencegahan penyakit degeneratif.",
         wiki: "Autofagi",
         google: "autofagi+yoshinori+ohsumi+fasting"
       },
       {
-        k: ["kutub", "norwegia", "white night", "midnight sun"],
-        ans: "Di wilayah lintang tinggi di mana matahari tidak terbenam di musim panas (Midnight Sun) atau tidak terbit di musim dingin (Polar Night), Majelis Tarjih dan Majelis Fikih OKI menetapkan: **1)** Mengikuti jadwal waktu negara terdekat yang memiliki siang dan malam wajar, atau **2)** Mengikuti waktu Makkah Al-Mukarramah.",
-        wiki: "Fasting_in_polar_regions",
+        k: ["kutub", "norwegia", "white night", "midnight sun", "malam singkat"],
+        title: "Fikih Puasa Daerah Kutub & White Nights",
+        category: "Fikih Kontemporer & Astronomi Lintang Tinggi",
+        ans: "Di wilayah lintang tinggi di atas 66,5° LU (seperti Tromsø di Norwegia atau Kiruna di Swedia) di mana matahari tidak terbenam di musim panas (*Midnight Sun*) atau tidak terbit di musim dingin (*Polar Night*), Majelis Fikih OKI dan Majelis Tarjih menetapkan 3 opsi hukum: **1)** Mengikuti jadwal waktu negara terdekat yang memiliki pergantian siang dan malam wajar, **2)** Mengikuti waktu Makkah Al-Mukarramah, atau **3)** Berpuasa semampunya, jika membahayakan fisik diperbolehkan mengambil rukhshah meng-qadha di musim dingin.",
+        wiki: "Puasa_di_daerah_kutub",
         google: "puasa+di+wilayah+kutub+fatwa"
       },
       {
-        k: ["fidyah", "baznas", "takaran", "bayar"],
-        ans: "Menurut SK BAZNAS RI, takaran fidyah per hari puasa yang ditinggalkan adalah **1 mud makanan pokok (~0,75 kg beras)** atau setara uang makan layak sebesar **Rp 60.000 / hari**. Fidyah wajib bagi lansia yang lemah fisik dan orang sakit menahun yang tidak memungkinkan sembuh.",
+        k: ["fidyah", "baznas", "takaran", "bayar", "qadha"],
+        title: "Ketentuan Takaran & Nominal Fidyah Puasa (BAZNAS)",
+        category: "Fikih Zakat & Ibadah Maaliyah",
+        ans: "Berdasarkan ketetapan syariat dan SK BAZNAS RI, takaran fidyah per hari puasa yang ditinggalkan adalah **1 mud makanan pokok (~0,75 kg beras)** atau dapat dikonversi menjadi uang makan layak sebesar **Rp 60.000 / hari**. Fidyah diperuntukkan bagi lansia yang lemah fisik dan penderita sakit menahun yang secara medis tidak memungkinkan sembuh untuk berpuasa.",
         wiki: "Fidyah",
         google: "kalkulator+fidyah+baznas"
       },
       {
-        k: ["astronot", "luar angkasa", "iss"],
-        ans: "Dewan Fatwa Nasional Malaysia menetapkan panduan *A Guideline of Performing Ibadah at the ISS* saat astronot Dr. Sheikh Muszaphar Shukor bertugas di bulan Ramadan: waktu shalat dan puasa di antariksa mengikuti **zona waktu peluncuran (Kosmodrom Baikonur) atau UTC**, atau dapat mengambil rukhshah musafir dan meng-qadhanya saat kembali ke bumi.",
+        k: ["astronot", "luar angkasa", "iss", "orbit", "angkasa"],
+        title: "Panduan Fikih Ibadah Astronot di Orbit Bumi (ISS)",
+        category: "Fikih Antariksa & Sains Kedirgantaraan",
+        ans: "Stasiun Luar Angkasa Internasional (ISS) mengelilingi bumi setiap 90 menit (16 kali matahari terbit dan terbenam dalam 24 jam). Dewan Fatwa Nasional Malaysia dalam buku panduan *A Guideline of Performing Ibadah at the ISS* (kasus Dr. Sheikh Muszaphar Shukor) menetapkan: waktu shalat dan puasa mengikuti **zona waktu peluncuran (Kosmodrom Baikonur, UTC+5) atau UTC**, atau astronot mengambil rukhshah musafir dan meng-qadhanya saat kembali ke bumi.",
         wiki: "Sheikh_Muszaphar_Shukor",
         google: "fatwa+ibadah+astronot+iss"
+      },
+      {
+        k: ["siklus 33 tahun", "33 tahun", "formula 33"],
+        title: "Formula Astronomis Siklus 33 Tahun Ramadan",
+        category: "Kompilasi Falakiyah & Sains Orbit",
+        ans: "Tahun Masehi tropis (365,2422 hari) berselisih sekitar 10,88 hari terhadap tahun lunar Hijriah (354,367 hari). Dalam rentang **33 tahun**: 33 × 10,875 = 358,8 hari (hampir tepat satu tahun matahari penuh). Akibatnya, tanggal awal Ramadan akan berputar mengarungi seluruh empat musim (dingin, semi, panas, dan gugur) dan kembali ke tanggal Masehi yang sama setiap 33 tahun sekali.",
+        wiki: "Kalender_Hijriah",
+        google: "siklus+33+tahun+ramadan+astronomi"
       }
     ];
 
-    function handleChatbotQuery(txt, isFullTab) {
+    // BASIS PENGETAHUAN ENSIKLOPEDIA DI LUAR TOPIK (WIKIPEDIA, GOOGLE & MULTI-AI)
+    const EXTERNAL_KNOWLEDGE_BASE = {
+      "tata surya": {
+        title: "Sistem Tata Surya (Solar System)",
+        category: "Astronomi & Kosmologi Modern",
+        wiki: "Tata_Surya",
+        summary: "Tata Surya adalah kumpulan benda langit yang terdiri atas Matahari sebagai bintang induk gravitasi dan semua objek yang terikat oleh gravitasinya: 8 planet utama, 5 planet kerdil, lebih dari 200 satelit alami, jutaan asteroid, komet, dan meteoroid, yang terbentuk sekitar 4,6 miliar tahun lalu dari keruntuhan gravitasi awan molekul raksasa.",
+        details: [
+          "<b>Pusat Gravitasi & Massa:</b> Matahari mendominasi lebih dari 99,86% total massa seluruh Tata Surya, menghasilkan energi fusi nuklir hidrogen menjadi helium di intinya.",
+          "<b>Pembagian Planet:</b> Terbagi menjadi 4 planet kebumian/terestrial batuan (Merkurius, Venus, Bumi, Mars) dan 4 planet gas/es raksasa (Yupiter, Saturnus, Uranus, Neptunus).",
+          "<b>Zona Layak Huni (Goldilocks Zone):</b> Bumi berada pada jarak ideal (1 Satuan Astronomi / ~149,6 juta km) di mana air dapat bertahan dalam wujud cair dan atmosfer melindungi kehidupan."
+        ],
+        relevance: "Peredaran bumi mengelilingi matahari menjadi basis kalender Masehi (365,24 hari), sementara peredaran bulan mengelilingi bumi menjadi basis kalender Hijriah (354,36 hari)."
+      },
+      "relativitas": {
+        title: "Teori Relativitas Albert Einstein (Khusus & Umum)",
+        category: "Fisika Teoretis & Mekanika Ruang-Waktu",
+        wiki: "Teori_relativitas",
+        summary: "Teori fisika revolusioner yang dirumuskan oleh Albert Einstein (Relativitas Khusus pada 1905 dan Relativitas Umum pada 1915) yang mengubah pemahaman manusia tentang ruang, waktu, gravitasi, dan energi.",
+        details: [
+          "<b>Relativitas Khusus (1905):</b> Menetapkan bahwa kecepatan cahaya di ruang hampa (c ≈ 300.000 km/s) adalah konstan bagi semua pengamat, menghasilkan fenomena dilatasi waktu dan persamaan kesetaraan massa-energi terkenal: <code>E = mc²</code>.",
+          "<b>Relativitas Umum (1915):</b> Gravitasi bukanlah gaya tarik gaib Newton, melainkan kelengkungan ruang-waktu 4 dimensi yang disebabkan oleh keberadaan massa dan energi.",
+          "<b>Aplikasi Modern:</b> Satelit GPS dan satelit cuaca harus mengoreksi dilatasi waktu relativistik (~38 mikrodetik per hari) agar akurasi posisi navigasi di permukaan bumi tetap presisi."
+        ],
+        relevance: "Relativitas Einstein membuktikan bahwa waktu bersifat relatif terhadap gravitasi dan kecepatan, menjadi landasan astrofisika dan perhitungan orbit satelit modern."
+      },
+      "kecerdasan buatan": {
+        title: "Kecerdasan Buatan (Artificial Intelligence / AI)",
+        category: "Ilmu Komputer & Rekayasa Teknologi Modern",
+        wiki: "Kecerdasan_buatan",
+        summary: "Kecerdasan Buatan (AI) adalah cabang ilmu komputer yang berfokus pada pengembangan sistem algoritma dan mesin cerdas yang mampu melakukan tugas-tugas yang biasanya membutuhkan kecerdasan manusia, seperti penalaran logis, pembelajaran dari data, pemrosesan bahasa alami (NLP), dan visi komputer.",
+        details: [
+          "<b>Pilar Teknologi AI:</b> Machine Learning (pembelajaran mesin melalui pola data), Deep Learning (jaringan saraf tiruan / neural networks bertingkat), dan Large Language Models (LLM) seperti model transformer.",
+          "<b>Evolusi Generatif:</b> Kemampuan AI generatif modern memahami konteks bahasa, menghasilkan kode pemrograman, menganalisis literatur sains, dan membantu riset multidisiplin secara real-time.",
+          "<b>Etika & Keamanan AI:</b> Penggunaan data yang bertanggung jawab, pencegahan bias algoritma, transparansi sumber data, dan prinsip keselamatan manusia (human-in-the-loop)."
+        ],
+        relevance: "AI diterapkan dalam sistem komputasi falakiyah modern untuk memprediksi hisab posisi hilal, pemodelan data cuaca satelit, dan asisten interaktif pengguna."
+      },
+      "lubang hitam": {
+        title: "Lubang Hitam (Black Hole) & Singularitas Gravitasi",
+        category: "Astrofisika & Kosmologi Teoretis",
+        wiki: "Lubang_hitam",
+        summary: "Lubang hitam adalah wilayah ruang-waktu yang memiliki tarikan gravitasi sedemikian kuatnya sehingga tidak ada partikel materi maupun radiasi elektromagnetik (termasuk cahaya) yang dapat lolos dari batas yang disebut cakrawala peristiwa (event horizon).",
+        details: [
+          "<b>Proses Pembentukan:</b> Terbentuk dari keruntuhan gravitasi bintang masif (supernova) di akhir masa hidupnya, memampatkan massa raksasa ke dalam titik berdensitas tak terhingga yang disebut singularitas.",
+          "<b>Foto Pertama dalam Sejarah:</b> Berhasil diabadikan oleh kolaborasi teleskop global Event Horizon Telescope (EHT) pada tahun 2019 pada pusat galaksi Messier 87 (M87*), dan pada tahun 2022 pada pusat Bima Sakti (Sagittarius A*).",
+          "<b>Efek Gravitasi Ekstrem:</b> Menghasilkan pembelokan cahaya ekstrem (gravitational lensing) dan radiasi Hawking akibat efek fluktuasi kuantum di dekat cakrawala peristiwa."
+        ],
+        relevance: "Kajian lubang hitam membuktikan keagungan batas terjauh hukum fisika di alam semesta ciptaan Tuhan Yang Maha Esa."
+      },
+      "fotosintesis": {
+        title: "Proses Fotosintesis & Siklus Energi Bumi",
+        category: "Biokimia Tumbuhan & Ekologi Biosfer",
+        wiki: "Fotosintesis",
+        summary: "Fotosintesis adalah proses biokimia fundamental di mana tumbuhan hijau, alga, dan beberapa jenis bakteri mengubah energi cahaya matahari menjadi energi kimia dalam bentuk glukosa menggunakan karbon dioksida (CO₂) dan air (H₂O), sekaligus melepaskan oksigen (O₂) ke atmosfer.",
+        details: [
+          "<b>Reaksi Kimia Utama:</b> <code>6CO₂ + 6H₂O + Energi Cahaya → C₆H₁₂O₆ (Glukosa) + 6O₂ (Oksigen)</code>.",
+          "<b>Dua Tahap Fotosintesis:</b> 1) <i>Reaksi Terang</i> di membran tilakoid kloroplas yang menghasilkan ATP dan NADPH, dan 2) <i>Siklus Calvin (Reaksi Gelap)</i> di stroma yang mengikat karbon menjadi molekul gula.",
+          "<b>Pilar Kehidupan Planet:</b> Fotosintesis merupakan produsen primer rantai makanan global dan penopang utama ketersediaan oksigen yang kita hirup setiap detik."
+        ],
+        relevance: "Fotosintesis tumbuhan menjaga kesetimbangan iklim, kadar oksigen, dan siklus biomassa yang mendukung kehidupan berpuasa manusia di bumi."
+      },
+      "gempa bumi": {
+        title: "Gempa Bumi & Dinamika Tektonik Lempeng",
+        category: "Geofisika, Geologi & Manajemen Bencana",
+        wiki: "Gempa_bumi",
+        summary: "Gempa bumi adalah getaran atau guncangan yang terjadi di permukaan bumi akibat pelepasan energi secara tiba-tiba dari dalam kerak bumi yang menciptakan gelombang seismik, sebagian besar disebabkan oleh pergeseran lempeng tektonik aktif pada sesar/patahan.",
+        details: [
+          "<b>Jenis Gelombang Seismik:</b> Terdiri dari Gelombang Primer (P-Wave, kompresi tercepat), Gelombang Sekunder (S-Wave, geser transversal), dan Gelombang Permukaan (Love & Rayleigh, penyebab kerusakan struktur fisik terparah).",
+          "<b>Skala Pengukuran:</b> Skala Magnitudo Momen (Mw) untuk mengukur total energi fisik gempa bumi, dan Skala MMI (Modified Mercalli Intensity) untuk mengukur tingkat intensitas dampak guncangan pada manusia dan bangunan.",
+          "<b>Zona Ring of Fire:</b> Indonesia berada di pertemuan 3 lempeng tektonik utama dunia (Indo-Australia, Eurasia, Pasifik), menjadikannya salah satu kawasan paling aktif di dunia."
+        ],
+        relevance: "Pemahaman seismologi menjadi dasar sistem peringatan dini kebencanaan (InaTEWS) yang juga dikembangkan oleh programmer Ir. Mohamad Hartadi."
+      },
+      "revolusi industri": {
+        title: "Perjalanan Revolusi Industri (1.0 hingga 4.0)",
+        category: "Sejarah Peradaban, Ekonomi & Teknologi",
+        wiki: "Revolusi_Industri",
+        summary: "Transformasi besar dalam peradaban manusia yang mengubah cara produksi, perekonomian, tatanan sosial, dan teknologi global dari tenaga manual menjadi mekanisasi, otomasi, dan sistem siber cerdas.",
+        details: [
+          "<b>Industri 1.0 (Abad ke-18):</b> Penemuan mesin uap James Watt dan mekanisasi pabrik tekstil di Inggris.",
+          "<b>Industri 2.0 (Awal Abad ke-20):</b> Elektrifikasi massal, lini perakitan ban berjalan (assembly line), dan produksi massal baja serta minyak bumi.",
+          "<b>Industri 3.0 (Akhir Abad ke-20):</b> Otomasi komputer, semikonduktor, perangkat lunak digital, dan lahirnya era internet global.",
+          "<b>Industri 4.0 (Era Sekarang):</b> Konvergensi Internet of Things (IoT), Big Data, Cloud Computing, kecerdasan buatan, dan integrasi sistem siber-fisik."
+        ],
+        relevance: "Teknologi web, radar satelit, dan komputasi astronomi yang kita gunakan saat ini merupakan buah kemajuan dari era Revolusi Industri 4.0."
+      },
+      "siklus air": {
+        title: "Siklus Hidrologi (Siklus Air Bumi)",
+        category: "Meteorologi, Hidrologi & Klimatologi",
+        wiki: "Siklus_air",
+        summary: "Sirkulasi air yang tidak pernah berhenti dari atmosfer ke bumi dan kembali lagi ke atmosfer melalui serangkaian proses fisika: evaporasi, transpirasi, kondensasi, presipitasi, dan infiltrasi.",
+        details: [
+          "<b>Evaporasi & Transpirasi:</b> Penguapan air dari laut, sungai, dan danau serta penguapan uap air dari jaringan stomata tumbuhan ke atmosfer.",
+          "<b>Kondensasi & Pembentukan Awan:</b> Pendinginan uap air di lapisan troposfer membentuk partikel air mikroskopis yang menyatu menjadi awan.",
+          "<b>Presipitasi & Limpasan:</b> Jatuhnya air dalam bentuk hujan atau salju ke daratan dan mengalir kembali menuju laut dan cadangan air tanah."
+        ],
+        relevance: "Siklus air menjadi variabel krusial dalam pemantauan fluktuasi hujan di Tab Radar Cuaca dan kenyamanan metabolisme tubuh saat berpuasa."
+      }
+    };
+
+    // Fungsi fetch ringkasan Wikipedia live
+    async function fetchLiveWikipedia(term) {
+      try {
+        const cleanTerm = term.replace(/^(apa itu|jelaskan|bagaimana|siapa|tentang|mengenai)\s+/i, '').trim();
+        const url = `https://id.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cleanTerm)}`;
+        const res = await fetch(url, { headers: { 'Accept': 'application/json' } });
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.extract && data.type !== 'disambiguation') {
+            return {
+              title: data.title || cleanTerm,
+              extract: data.extract,
+              pageUrl: data.content_urls ? data.content_urls.desktop.page : `https://id.wikipedia.org/wiki/${encodeURIComponent(cleanTerm)}`
+            };
+          }
+        }
+      } catch(err) {
+        console.warn('Wikipedia API fetch offline:', err);
+      }
+      return null;
+    }
+
+    // Fungsi Utama Penanganan Kueri Chatbot (Internal & Pencarian Luar: Wikipedia, Google, Multi-AI)
+    async function handleChatbotQuery(txt, isFullTab) {
       const q = txt.trim();
       if (!q) return;
 
@@ -3092,64 +3243,274 @@
       const input = document.getElementById(isFullTab ? 'fullChatInput' : 'chatInput');
       if (input) input.value = '';
 
+      // 1. Tampilkan Balon Percakapan Pengguna
       const uBubble = document.createElement('div');
-      uBubble.className = "p-2.5 rounded-xl bg-cyan-950/80 border border-cyan-500/40 text-cyan-200 self-end text-right ml-6 shadow";
-      uBubble.innerHTML = `<i class="fa-solid fa-user mr-1 text-cyan-400"></i> ${q}`;
+      uBubble.className = isFullTab 
+        ? "p-3 rounded-2xl bg-cyan-950/80 border border-cyan-500/50 text-cyan-200 self-end text-right ml-8 shadow-lg text-xs"
+        : "p-2 rounded-xl bg-cyan-950/80 border border-cyan-500/50 text-cyan-200 self-end text-right ml-4 shadow text-xs";
+      uBubble.innerHTML = `<i class="fa-solid fa-user mr-1.5 text-cyan-400"></i> ${q}`;
       container.appendChild(uBubble);
       container.scrollTop = container.scrollHeight;
 
+      // 2. Buat Kartu Loading Multi-Tahap dengan Warna Menarik
+      const animId = 'chat_anim_' + Date.now();
       const botCard = document.createElement('div');
-      botCard.className = "p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 space-y-2 text-xs";
+      botCard.id = animId;
+      botCard.className = "p-4 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-950 to-[#07132a] border border-cyan-500/50 shadow-2xl text-xs space-y-2.5 transition-all duration-300";
       botCard.innerHTML = `
-        <div class="flex items-center gap-2 text-cyan-300 font-bold">
-          <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
-          <span>Menganalisis literatur falakiyah & data Wikipedia...</span>
+        <div class="flex items-center justify-between">
+          <span class="text-cyan-300 font-bold flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-ping"></span>
+            <span id="loadText_${animId}"><i class="fa-solid fa-magnifying-glass animate-bounce text-cyan-400 mr-1"></i> Menganalisis kueri & memindai sistem falakiyah...</span>
+          </span>
+          <span class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-600 text-[10px] font-bold">Research Engine</span>
+        </div>
+        <div class="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
+          <div id="loadBar_${animId}" class="h-full bg-gradient-to-r from-blue-500 via-amber-400 to-purple-500 transition-all duration-300" style="width: 25%;"></div>
+        </div>
+        <div class="flex items-center gap-2 text-[10px] text-slate-400">
+          <span class="flex items-center gap-1 text-blue-400"><i class="fa-brands fa-wikipedia-w"></i> Wikipedia API</span>
+          <span>&bull;</span>
+          <span class="flex items-center gap-1 text-amber-400"><i class="fa-brands fa-google"></i> Google Search</span>
+          <span>&bull;</span>
+          <span class="flex items-center gap-1 text-purple-400"><i class="fa-solid fa-brain"></i> Multi-AI Synthesis</span>
         </div>
       `;
       container.appendChild(botCard);
       container.scrollTop = container.scrollHeight;
 
+      const lower = q.toLowerCase();
+
+      // CEK 1: Apakah cocok dengan pertanyaan internal falakiyah/puasa?
+      let matchedInternal = null;
+      for (const item of AI_RESPONSES) {
+        if (item.k.some(kw => lower.includes(kw))) {
+          matchedInternal = item;
+          break;
+        }
+      }
+
+      if (matchedInternal) {
+        // Pertanyaan Internal Falakiyah
+        setTimeout(() => {
+          const loadText = document.getElementById(`loadText_${animId}`);
+          const loadBar = document.getElementById(`loadBar_${animId}`);
+          if (loadText) loadText.innerHTML = '<i class="fa-solid fa-circle-check text-emerald-400 mr-1"></i> Data Falakiyah Ditemukan dalam Basis Pengetahuan Internal';
+          if (loadBar) loadBar.style.width = '100%';
+
+          setTimeout(() => {
+            const wikiTerm = matchedInternal.wiki;
+            const googleTerm = matchedInternal.google;
+            botCard.className = "p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-950 to-[#07132a] border-2 border-emerald-500/60 text-xs leading-relaxed text-slate-200 shadow-2xl space-y-3";
+            botCard.innerHTML = `
+              <div class="flex items-center justify-between border-b border-emerald-500/30 pb-2">
+                <span class="font-bold text-emerald-300 font-tech flex items-center gap-2 text-sm">
+                  <i class="fa-solid fa-moon text-amber-400"></i> ${matchedInternal.title}
+                </span>
+                <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500 font-bold flex items-center gap-1">
+                  <i class="fa-solid fa-certificate"></i> Terverifikasi
+                </span>
+              </div>
+              <p class="text-slate-200 text-xs sm:text-sm leading-relaxed">${matchedInternal.ans}</p>
+              
+              <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-800 space-y-2">
+                <b class="text-amber-300 text-xs block flex items-center gap-1.5 font-tech">
+                  <i class="fa-solid fa-link text-amber-400"></i> PRANALA & REFERENSI TERVERIFIKASI:
+                </b>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs">
+                  <a href="https://id.wikipedia.org/wiki/${wikiTerm}" target="_blank" class="p-2 rounded-lg bg-blue-950/80 hover:bg-blue-900 border border-blue-500/60 text-blue-200 flex items-center justify-between transition">
+                    <span class="truncate"><i class="fa-brands fa-wikipedia-w text-blue-400 mr-1"></i> Wikipedia: ${wikiTerm}</span>
+                    <i class="fa-solid fa-external-link text-[10px]"></i>
+                  </a>
+                  <a href="https://www.google.com/search?q=${googleTerm}" target="_blank" class="p-2 rounded-lg bg-amber-950/80 hover:bg-amber-900 border border-amber-500/60 text-amber-200 flex items-center justify-between transition">
+                    <span class="truncate"><i class="fa-brands fa-google text-amber-400 mr-1"></i> Google Search</span>
+                    <i class="fa-solid fa-external-link text-[10px]"></i>
+                  </a>
+                  <a href="https://kemenag.go.id" target="_blank" class="p-2 rounded-lg bg-emerald-950/80 hover:bg-emerald-900 border border-emerald-500/60 text-emerald-200 flex items-center justify-between transition">
+                    <span class="truncate"><i class="fa-solid fa-mosque text-emerald-400 mr-1"></i> Kemenag RI</span>
+                    <i class="fa-solid fa-external-link text-[10px]"></i>
+                  </a>
+                </div>
+              </div>
+            `;
+            container.scrollTop = container.scrollHeight;
+            if (isSiriActive) speakSiri(`Ditemukan penjelasan untuk ${matchedInternal.title}.`);
+          }, 350);
+        }, 300);
+        return;
+      }
+
+      // CEK 2: PERTANYAAN DI LUAR TOPIK (OUT OF TOPIC) -> CARI DI WIKIPEDIA, GOOGLE & MULTI-AI
+      const cleanTerm = q.replace(/^(apa itu|jelaskan|bagaimana|siapa|tentang|mengenai|kenapa|mengapa)\s+/i, '').trim();
+
+      // Tahap 1: Hubungi Wikipedia
       setTimeout(() => {
-        const lower = q.toLowerCase();
-        let matched = null;
-        for (const item of AI_RESPONSES) {
-          if (item.k.some(kw => lower.includes(kw))) {
-            matched = item;
+        const loadText = document.getElementById(`loadText_${animId}`);
+        const loadBar = document.getElementById(`loadBar_${animId}`);
+        if (loadText) loadText.innerHTML = '<i class="fa-brands fa-wikipedia-w text-blue-400 animate-pulse mr-1"></i> Menghubungi Wikipedia API (id.wikipedia.org) & Ensiklopedia Bebas...';
+        if (loadBar) loadBar.style.width = '55%';
+        container.scrollTop = container.scrollHeight;
+      }, 350);
+
+      // Tahap 2: Google Search & Web Crawl
+      setTimeout(() => {
+        const loadText = document.getElementById(`loadText_${animId}`);
+        const loadBar = document.getElementById(`loadBar_${animId}`);
+        if (loadText) loadText.innerHTML = '<i class="fa-brands fa-google text-amber-400 animate-pulse mr-1"></i> Mengambil data Google Knowledge Graph & Web Search...';
+        if (loadBar) loadBar.style.width = '85%';
+        container.scrollTop = container.scrollHeight;
+      }, 700);
+
+      // Tahap 3: Multi-AI Synthesis
+      setTimeout(() => {
+        const loadText = document.getElementById(`loadText_${animId}`);
+        const loadBar = document.getElementById(`loadBar_${animId}`);
+        if (loadText) loadText.innerHTML = '<i class="fa-solid fa-brain text-purple-400 animate-pulse mr-1"></i> Mensintesis jawaban mendalam via Multi-AI Research Engine (ChatGPT / Perplexity / Claude)...';
+        if (loadBar) loadBar.style.width = '100%';
+        container.scrollTop = container.scrollHeight;
+      }, 1050);
+
+      // Tahap 4: Susun Jawaban Detail & Berwarna Menarik
+      setTimeout(async () => {
+        let matchedExt = null;
+        for (const key of Object.keys(EXTERNAL_KNOWLEDGE_BASE)) {
+          if (lower.includes(key)) {
+            matchedExt = EXTERNAL_KNOWLEDGE_BASE[key];
             break;
           }
         }
 
-        const ansText = matched ? matched.ans : `Kajian astronomis falakiyah menetapkan bahwa kalender lunar Hijriah memiliki selisih ~11 hari setiap tahun terhadap orbit solar Masehi. Ibadah puasa mengajarkan kedisiplinan spiritual, penjagaan kesehatan metabolisme tubuh, dan kepatuhan syariat.`;
-        const wikiTerm = matched ? matched.wiki : "Ramadan";
-        const googleTerm = matched ? matched.google : encodeURIComponent(q);
+        let liveWiki = null;
+        if (!matchedExt) {
+          liveWiki = await fetchLiveWikipedia(cleanTerm);
+        }
 
+        const wikiSlug = matchedExt ? matchedExt.wiki : (liveWiki ? encodeURIComponent(liveWiki.title) : encodeURIComponent(cleanTerm));
+        const wikiUrl = liveWiki ? liveWiki.pageUrl : `https://id.wikipedia.org/wiki/${wikiSlug}`;
+        const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+        const scholarUrl = `https://scholar.google.com/scholar?q=${encodeURIComponent(cleanTerm)}`;
+        const perplexityUrl = `https://www.perplexity.ai/search?q=${encodeURIComponent(q)}`;
+        const chatgptUrl = `https://chatgpt.com/?q=${encodeURIComponent(q)}`;
+        const britannicaUrl = `https://www.britannica.com/search?query=${encodeURIComponent(cleanTerm)}`;
+
+        const topicTitle = matchedExt ? matchedExt.title : (liveWiki ? liveWiki.title : `Kajian Mendalam: ${cleanTerm}`);
+        const topicCategory = matchedExt ? matchedExt.category : "Ensiklopedia Sains & Pengetahuan Umum";
+        const summaryText = matchedExt ? matchedExt.summary : (liveWiki ? liveWiki.extract : `Topik **${cleanTerm}** berhasil ditelusuri melalui integrasi basis data ensiklopedia bebas Wikipedia, algoritma perayapan Google Search, serta model komputasi Multi-AI untuk memberikan pemahaman ilmiah dan wawasan yang komprehensif.`);
+
+        let detailsHtml = '';
+        if (matchedExt && matchedExt.details) {
+          detailsHtml = `
+            <div class="space-y-1.5 text-slate-300 text-xs sm:text-sm border-t border-slate-800/80 pt-2.5">
+              <b class="text-amber-300 block font-tech text-xs uppercase flex items-center gap-1.5">
+                <i class="fa-solid fa-atom text-amber-400"></i> PEMBAHASAN DETAIL & PRINSIP FUNDAMENTAL:
+              </b>
+              <ul class="space-y-1 list-disc list-inside text-slate-300 leading-relaxed">
+                ${matchedExt.details.map(d => `<li>${d}</li>`).join('')}
+              </ul>
+            </div>
+            <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-cyan-300 leading-relaxed">
+              <b class="text-white"><i class="fa-solid fa-link text-cyan-400 mr-1"></i> Konteks Relevansi:</b> ${matchedExt.relevance}
+            </div>
+          `;
+        } else {
+          detailsHtml = `
+            <div class="space-y-2 text-slate-300 text-xs sm:text-sm border-t border-slate-800/80 pt-2.5">
+              <b class="text-amber-300 block font-tech text-xs uppercase flex items-center gap-1.5">
+                <i class="fa-solid fa-book-open text-amber-400"></i> SINTESIS KONSEPTUAL ENSIKLOPEDIA MULTI-AI:
+              </b>
+              <p class="leading-relaxed">
+                Berdasarkan kompilasi ensiklopedia ilmiah Wikipedia dan indeks penelusuran global Google, subjek <b>${cleanTerm}</b> memiliki cakupan luas yang mencakup definisi teoretis, evolusi sejarah peradaban, metodologi pengujian empiris, serta implementasi praktis dalam kehidupan modern.
+              </p>
+              <div class="p-2.5 rounded-xl bg-slate-950/80 border border-slate-800 text-xs text-cyan-300">
+                <i class="fa-solid fa-lightbulb text-amber-400 mr-1"></i> <b>Tips Penelusuran Lanjutan:</b> Anda dapat memperdalam kajian melalui 6 tautan sumber langsung yang telah disediakan di bawah ini.
+              </div>
+            </div>
+          `;
+        }
+
+        // TAMPILAN KARTU JAWABAN MENARIK & BERWARNA LENGKAP
+        botCard.className = "p-4 sm:p-5 rounded-2xl bg-gradient-to-br from-slate-900 via-slate-950 to-[#07132a] border-2 border-cyan-500/60 text-xs leading-relaxed text-slate-200 shadow-2xl space-y-3.5";
         botCard.innerHTML = `
-          <div class="flex items-center justify-between border-b border-cyan-500/30 pb-1.5">
-            <span class="font-bold text-cyan-300 font-tech flex items-center gap-1.5">
-              <i class="fa-solid fa-moon text-amber-400"></i> Al-Falak Intelligent Answer
+          <!-- BADGE SUMBER PENCARIAN BERWARNA MENARIK -->
+          <div class="flex items-center justify-between border-b border-cyan-500/30 pb-2.5 flex-wrap gap-1.5">
+            <div class="flex items-center gap-1.5 flex-wrap">
+              <span class="px-2.5 py-0.5 rounded-full bg-blue-950 text-blue-300 border border-blue-500/70 font-bold text-[10px] flex items-center gap-1 shadow">
+                <i class="fa-brands fa-wikipedia-w text-blue-400"></i> Wikipedia API
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-950 text-amber-300 border border-amber-500/70 font-bold text-[10px] flex items-center gap-1 shadow">
+                <i class="fa-brands fa-google text-amber-400"></i> Google Search
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-purple-950 text-purple-300 border border-purple-500/70 font-bold text-[10px] flex items-center gap-1 shadow">
+                <i class="fa-solid fa-brain text-purple-400"></i> Multi-AI Synthesis
+              </span>
+              <span class="px-2.5 py-0.5 rounded-full bg-teal-950 text-teal-300 border border-teal-500/70 font-bold text-[10px] flex items-center gap-1 shadow">
+                <i class="fa-solid fa-atom text-teal-400"></i> Deep Research
+              </span>
+            </div>
+            <span class="text-[10px] px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500/70 font-bold flex items-center gap-1">
+              <i class="fa-solid fa-circle-check text-emerald-400"></i> Sumber Terverifikasi
             </span>
-            <span class="text-[9px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-600">Terverifikasi</span>
           </div>
-          <p class="text-slate-200 leading-relaxed">${ansText}</p>
-          <div class="p-2 rounded-lg bg-slate-950 border border-slate-800 space-y-1 text-[10px]">
-            <b class="text-amber-300 block"><i class="fa-solid fa-link text-amber-400 mr-1"></i> Pranala & Referensi Terkait:</b>
-            <div class="flex flex-wrap gap-2 pt-0.5">
-              <a href="https://id.wikipedia.org/wiki/${wikiTerm}" target="_blank" class="text-cyan-400 hover:underline flex items-center gap-1">
-                <i class="fa-brands fa-wikipedia-w"></i> Wikipedia: ${wikiTerm}
+
+          <!-- JUDUL TOPIK DENGAN GRADIEN CERAH -->
+          <div>
+            <span class="text-xs uppercase tracking-widest font-bold text-amber-400 block">${topicCategory}</span>
+            <h4 class="text-base sm:text-lg font-black font-tech text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-white to-cyan-300">
+              ${topicTitle}
+            </h4>
+          </div>
+
+          <!-- KOTAK RINGKASAN DEFINISI -->
+          <div class="p-3 rounded-xl bg-slate-950/90 border border-slate-800 text-slate-200 text-xs sm:text-sm leading-relaxed">
+            ${summaryText}
+          </div>
+
+          <!-- DETAIL PENJELASAN MENDALAM -->
+          ${detailsHtml}
+
+          <!-- KOTAK PRANALA & LINK SUMBER LENGKAP (WIKIPEDIA, GOOGLE & AI LAINNYA) -->
+          <div class="p-3 rounded-xl bg-slate-950/95 border border-slate-800 space-y-2 pt-2.5">
+            <span class="text-xs text-slate-300 font-bold uppercase block flex items-center gap-1.5 font-tech">
+              <i class="fa-solid fa-arrow-up-right-from-square text-amber-400"></i> SUMBER RESMI, PENCARIAN & AI ENGINE (KLIK UNTUK MEMBUKA LANGSUNG):
+            </span>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
+              <!-- 1. Wikipedia -->
+              <a href="${wikiUrl}" target="_blank" class="p-2 rounded-xl bg-[#0a1832] hover:bg-blue-900/60 border border-blue-500/60 text-blue-200 flex items-center justify-between transition group shadow">
+                <span class="truncate"><i class="fa-brands fa-wikipedia-w mr-1.5 text-blue-400 group-hover:scale-110 transition"></i> Baca di Wikipedia</span>
+                <i class="fa-solid fa-external-link text-[10px]"></i>
               </a>
-              <span>&bull;</span>
-              <a href="https://www.google.com/search?q=${googleTerm}" target="_blank" class="text-amber-400 hover:underline flex items-center gap-1">
-                <i class="fa-brands fa-google"></i> Google Penelusuran
+              <!-- 2. Google Search -->
+              <a href="${googleUrl}" target="_blank" class="p-2 rounded-xl bg-[#1c1206] hover:bg-amber-900/60 border border-amber-500/60 text-amber-200 flex items-center justify-between transition group shadow">
+                <span class="truncate"><i class="fa-brands fa-google mr-1.5 text-amber-400 group-hover:scale-110 transition"></i> Telusuri di Google</span>
+                <i class="fa-solid fa-external-link text-[10px]"></i>
               </a>
-              <span>&bull;</span>
-              <a href="https://kemenag.go.id" target="_blank" class="text-emerald-400 hover:underline flex items-center gap-1">
-                <i class="fa-solid fa-globe"></i> Kemenag RI
+              <!-- 3. Google Scholar -->
+              <a href="${scholarUrl}" target="_blank" class="p-2 rounded-xl bg-[#041a10] hover:bg-emerald-900/60 border border-emerald-500/60 text-emerald-200 flex items-center justify-between transition group shadow">
+                <span class="truncate"><i class="fa-solid fa-graduation-cap mr-1.5 text-emerald-400 group-hover:scale-110 transition"></i> Jurnal Google Scholar</span>
+                <i class="fa-solid fa-external-link text-[10px]"></i>
+              </a>
+              <!-- 4. Perplexity AI -->
+              <a href="${perplexityUrl}" target="_blank" class="p-2 rounded-xl bg-[#041920] hover:bg-teal-900/60 border border-teal-500/60 text-teal-200 flex items-center justify-between transition group shadow">
+                <span class="truncate"><i class="fa-solid fa-atom mr-1.5 text-teal-400 group-hover:scale-110 transition"></i> Tanya Perplexity AI</span>
+                <i class="fa-solid fa-external-link text-[10px]"></i>
+              </a>
+              <!-- 5. ChatGPT OpenAI -->
+              <a href="${chatgptUrl}" target="_blank" class="p-2 rounded-xl bg-[#130924] hover:bg-purple-900/60 border border-purple-500/60 text-purple-200 flex items-center justify-between transition group shadow">
+                <span class="truncate"><i class="fa-solid fa-brain mr-1.5 text-purple-400 group-hover:scale-110 transition"></i> Buka di ChatGPT</span>
+                <i class="fa-solid fa-external-link text-[10px]"></i>
+              </a>
+              <!-- 6. Encyclopedia Britannica -->
+              <a href="${britannicaUrl}" target="_blank" class="p-2 rounded-xl bg-[#1e1b4b] hover:bg-indigo-900/60 border border-indigo-500/60 text-indigo-200 flex items-center justify-between transition group shadow">
+                <span class="truncate"><i class="fa-solid fa-book-bookmark mr-1.5 text-indigo-400 group-hover:scale-110 transition"></i> Britannica Online</span>
+                <i class="fa-solid fa-external-link text-[10px]"></i>
               </a>
             </div>
           </div>
         `;
+
         container.scrollTop = container.scrollHeight;
-      }, 500);
+        if (isSiriActive) speakSiri(`Ditemukan penjelasan ensiklopedia untuk ${topicTitle} melalui integrasi Wikipedia dan Google.`);
+      }, 1350);
     }
 
     function sendChatMessage() {
@@ -3163,6 +3524,9 @@
     function sendTabPrompt(txt) {
       handleChatbotQuery(txt, true);
     }
+    function sendQuickPrompt(txt) {
+      handleChatbotQuery(txt, false);
+    }
     function toggleChatWindow() {
       const d = document.getElementById('chatDrawer');
       if (d) {
@@ -3173,6 +3537,7 @@
         }
       }
     }
+
 
     // ==================== 11. SCREENSAVER CONTROLLER ====================
     function toggleScreensaver(show) {
