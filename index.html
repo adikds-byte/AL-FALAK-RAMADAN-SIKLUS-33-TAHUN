@@ -1420,92 +1420,224 @@
             <i class="fa-solid fa-calendar-day"></i>
           </div>
           <div>
-            <h2 class="text-base sm:text-lg font-black tracking-wide text-amber-300 font-tech">
-              KONVERTER KALENDER HIJRIYAH & JADWAL PUASA SUNNAH
-            </h2>
+            <div class="flex items-center gap-2 flex-wrap">
+              <h2 class="text-base sm:text-lg font-black tracking-wide text-amber-300 font-tech">
+                KONVERTER KALENDER HIJRIYAH & JADWAL PUASA SUNNAH
+              </h2>
+              <span id="calLiveDeviceBadge" class="px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500 text-[9px] font-bold flex items-center gap-1.5 shadow">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>Otomatis Sinkron Perangkat</span>
+              </span>
+            </div>
             <p class="text-[10px] text-slate-400">
-              Konversi Presisi Dua Arah Gregorian-Hijriah Berbasis Algoritma Hisab Astronomis Global Tunggal & Fase Bulan Realtime
+              Konversi Presisi Dua Arah Gregorian-Hijriah Berbasis Hisab Astronomis Global Tunggal, Fase Bulan & Detektor Puasa
             </p>
           </div>
         </div>
+
+        <div class="flex items-center gap-2">
+          <button type="button" onclick="setConverterToDeviceToday()" class="has-tooltip px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 text-slate-950 font-black text-xs flex items-center gap-1.5 shadow transition active:scale-95 cursor-pointer">
+            <i class="fa-solid fa-crosshairs text-slate-950"></i>
+            <span>Hari Ini (Perangkat)</span>
+            <span class="tooltip-content">Setel otomatis ke tanggal & hari perangkat saat ini</span>
+          </button>
+        </div>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
-        <!-- Form Konversi -->
-        <div class="cmd-card p-5 space-y-3">
-          <h3 class="text-sm font-bold text-cyan-300 font-tech flex items-center gap-2">
-            <i class="fa-solid fa-arrow-right-arrow-left text-cyan-400"></i> Pilih Tanggal Masehi untuk Dikonversi:
-          </h3>
-          <div class="space-y-1">
-            <label class="text-[10px] text-slate-400 uppercase font-bold">Tanggal Masehi:</label>
-            <input type="date" id="calGregorianInput" value="2026-10-04" onchange="runHijriConversion(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-sm focus:border-cyan-400 outline-none">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 text-xs">
+        
+        <!-- KOLOM KIRI: FORM PENGATUR TANGGAL (HARI, BULAN, TAHUN) & HASIL KONVERSI -->
+        <div class="lg:col-span-6 space-y-4">
+          
+          <!-- Card Pengatur Hari, Bulan, Tahun -->
+          <div class="cmd-card p-5 space-y-4 border-l-4 border-l-cyan-400">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-2.5">
+              <h3 class="text-sm font-bold text-cyan-300 font-tech flex items-center gap-2">
+                <i class="fa-solid fa-sliders text-cyan-400"></i> PENGATUR TANGGAL, HARI, BULAN & TAHUN
+              </h3>
+              <span class="text-[10px] text-slate-400 font-mono">Dua Arah & Interaktif</span>
+            </div>
+
+            <!-- Input Datepicker Tunggal -->
+            <div class="space-y-1">
+              <label class="text-[10px] text-slate-400 uppercase font-bold flex justify-between">
+                <span>Pilih Tanggal via Kalender (Datepicker):</span>
+                <span class="text-cyan-400 font-normal">Sinkron Otomatis</span>
+              </label>
+              <input type="date" id="calGregorianInput" onchange="onDatepickerChange(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono text-sm focus:border-cyan-400 outline-none transition shadow-inner">
+            </div>
+
+            <!-- Tiga Dropdown Terpisah: Hari, Bulan, Tahun -->
+            <div class="space-y-1 pt-1">
+              <label class="text-[10px] text-slate-400 uppercase font-bold block">
+                Atau Ubah Komponen Hari, Bulan & Tahun Secara Terpisah:
+              </label>
+              <div class="grid grid-cols-3 gap-2">
+                <!-- Dropdown Hari -->
+                <div>
+                  <span class="text-[9px] text-slate-400 block mb-0.5">Hari / Tanggal:</span>
+                  <select id="calDaySelect" onchange="onSeparateDateChange()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-2 text-white font-mono text-xs focus:border-cyan-400 outline-none transition cursor-pointer">
+                    <!-- Populated dynamically 1-31 -->
+                  </select>
+                </div>
+
+                <!-- Dropdown Bulan -->
+                <div>
+                  <span class="text-[9px] text-slate-400 block mb-0.5">Bulan Masehi:</span>
+                  <select id="calMonthSelect" onchange="onSeparateDateChange()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2 py-2 text-white font-mono text-xs focus:border-cyan-400 outline-none transition cursor-pointer">
+                    <option value="1">01 - Januari</option>
+                    <option value="2">02 - Februari</option>
+                    <option value="3">03 - Maret</option>
+                    <option value="4">04 - April</option>
+                    <option value="5">05 - Mei</option>
+                    <option value="6">06 - Juni</option>
+                    <option value="7">07 - Juli</option>
+                    <option value="8">08 - Agustus</option>
+                    <option value="9">09 - September</option>
+                    <option value="10">10 - Oktober</option>
+                    <option value="11">11 - November</option>
+                    <option value="12">12 - Desember</option>
+                  </select>
+                </div>
+
+                <!-- Input / Stepper Tahun -->
+                <div>
+                  <span class="text-[9px] text-slate-400 block mb-0.5">Tahun Masehi:</span>
+                  <div class="flex items-center">
+                    <input type="number" id="calYearInput" min="1900" max="2100" onchange="onSeparateDateChange()" oninput="onSeparateDateChange()" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-2.5 py-2 text-white font-mono text-xs focus:border-cyan-400 outline-none transition text-center font-bold">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tombol Navigasi Cepat Stepper: Hari, Bulan, Tahun -->
+            <div class="space-y-1.5 pt-1">
+              <span class="text-[9px] text-slate-400 uppercase font-bold block">Navigasi Penyesuaian Cepat:</span>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-[10px]">
+                <button type="button" onclick="adjustConverterDate(0, 0, -1)" class="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+                  <i class="fa-solid fa-angle-left"></i> <span>-1 Hari</span>
+                </button>
+                <button type="button" onclick="adjustConverterDate(0, 0, 1)" class="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+                  <span>+1 Hari</span> <i class="fa-solid fa-angle-right"></i>
+                </button>
+                <button type="button" onclick="adjustConverterDate(0, -1, 0)" class="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+                  <i class="fa-solid fa-angles-left"></i> <span>-1 Bulan</span>
+                </button>
+                <button type="button" onclick="adjustConverterDate(0, 1, 0)" class="p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+                  <span>+1 Bulan</span> <i class="fa-solid fa-angles-right"></i>
+                </button>
+              </div>
+              <div class="flex items-center justify-between gap-2 pt-1 text-[10px]">
+                <button type="button" onclick="adjustConverterDate(-1, 0, 0)" class="flex-1 p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+                  <i class="fa-solid fa-backward-step"></i> <span>-1 Tahun</span>
+                </button>
+                <button type="button" onclick="setConverterToDeviceToday()" class="flex-1 p-1.5 rounded-lg bg-cyan-900/60 hover:bg-cyan-800 border border-cyan-500/60 text-cyan-200 font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+                  <i class="fa-solid fa-rotate-left"></i> <span>Hari Ini (Perangkat)</span>
+                </button>
+                <button type="button" onclick="adjustConverterDate(1, 0, 0)" class="flex-1 p-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-bold transition flex items-center justify-center gap-1 cursor-pointer">
+                  <span>+1 Tahun</span> <i class="fa-solid fa-forward-step"></i>
+                </button>
+              </div>
+            </div>
+
           </div>
 
-          <div class="p-4 rounded-xl bg-slate-950 border border-cyan-500/40 text-center space-y-1 mt-3">
-            <span class="text-[9px] text-slate-400 uppercase tracking-widest font-bold block">Hasil Konversi Kalender Hijriah</span>
-            <div id="calHijriResult" class="text-2xl font-black font-tech text-amber-300">22 Rabi'ul Akhir 1448 H</div>
-            <div id="calDayName" class="text-xs font-bold text-cyan-400">Hari Ahad (Minggu)</div>
+          <!-- Card Hasil Konversi Detail -->
+          <div class="cmd-card p-5 space-y-3.5 border-l-4 border-l-amber-400 bg-gradient-to-br from-slate-950 via-[#0a1428] to-slate-950">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-2">
+              <span class="text-[9px] text-slate-400 uppercase tracking-widest font-bold">HASIL KONVERSI KALENDER HIJRIAH</span>
+              <span id="calGregorianDisplayBadge" class="text-[10px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 border border-cyan-600 font-bold">
+                12 Oktober 2026
+              </span>
+            </div>
 
-            <div class="flex items-center justify-center gap-3 pt-2 border-t border-slate-800 mt-2">
-              <i id="calMoonIcon" class="fa-solid fa-moon text-2xl text-amber-200"></i>
-              <div class="text-left">
-                <span class="text-[9px] text-slate-400 block">Fase Bulan:</span>
-                <span id="calMoonPhaseText" class="text-xs font-bold text-white">Bulan Sabit Akhir (Waning Crescent)</span>
+            <!-- Hasil Tanggal Hijriah Besar -->
+            <div class="text-center py-2 space-y-1">
+              <div id="calHijriResult" class="text-2xl sm:text-3xl font-black font-tech text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-200 to-cyan-300">
+                28 Rabi'ul Akhir 1448 H
               </div>
+              <div id="calDayName" class="text-xs sm:text-sm font-bold text-cyan-300 flex items-center justify-center gap-2">
+                <span>Hari Senin</span> &bull; <span class="font-arabic text-amber-300 text-sm">الإثنين (Al-Itsnayn)</span> &bull; <span id="calPasaranJawa" class="text-emerald-400">Pahing</span>
+              </div>
+            </div>
+
+            <!-- Fase Bulan & Iluminasi -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-2 border-t border-slate-800">
+              <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-center gap-3">
+                <i id="calMoonIcon" class="fa-solid fa-moon text-2xl sm:text-3xl text-amber-200 shrink-0"></i>
+                <div>
+                  <span class="text-[9px] text-slate-400 block uppercase">Fase Bulan:</span>
+                  <span id="calMoonPhaseText" class="text-[11px] font-bold text-white block leading-tight">Bulan Sabit Akhir</span>
+                  <span id="calMoonIllumination" class="text-[9px] text-cyan-400 block font-mono">Iluminasi: ~25%</span>
+                </div>
+              </div>
+
+              <!-- Status Ibadah Puasa Hari Ini -->
+              <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 flex items-center gap-2.5">
+                <div id="calFastingIconBox" class="w-9 h-9 rounded-lg bg-emerald-950 border border-emerald-500/50 flex items-center justify-center text-emerald-400 shrink-0 text-base">
+                  <i class="fa-solid fa-hands-praying"></i>
+                </div>
+                <div>
+                  <span class="text-[9px] text-slate-400 block uppercase">Status Ibadah Puasa:</span>
+                  <span id="calFastingStatusText" class="text-[11px] font-bold text-emerald-300 block leading-tight">Puasa Sunnah Senin</span>
+                  <span id="calFastingCategoryText" class="text-[9px] text-slate-400 block">Amalan Sunnah Pekanan</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tanggal Masehi Lengkap & Julian Day -->
+            <div class="p-2.5 bg-slate-950/80 rounded-xl border border-slate-800/80 flex justify-between items-center text-[10px] text-slate-400">
+              <span id="calFullGregorianDetail">Senin, 12 Oktober 2026 M</span>
+              <span id="calJulianDay">Julian Day: 2461326</span>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- KOLOM KANAN: TABEL PUASA SUNNAH BULAN TERPILIH (DINAMIS) -->
+        <div class="lg:col-span-6 space-y-4">
+          <div class="cmd-card p-5 space-y-3.5 border-l-4 border-l-emerald-500">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-slate-800 pb-2.5">
+              <div>
+                <h3 class="text-sm font-bold text-emerald-300 font-tech flex items-center gap-2">
+                  <i class="fa-solid fa-list-check text-emerald-400"></i> JADWAL PUASA SUNNAH BULAN INI
+                </h3>
+                <p id="calTableMonthSubtitle" class="text-[10px] text-slate-400">
+                  Dihitung otomatis sesuai bulan & tahun yang dipilih
+                </p>
+              </div>
+              <span class="px-2.5 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-500/50 text-[10px] font-bold">
+                Interaktif (Klik Baris)
+              </span>
+            </div>
+
+            <div class="overflow-x-auto rounded-xl border border-slate-800 max-h-[380px] overflow-y-auto">
+              <table class="w-full text-left border-collapse text-[10px]">
+                <thead class="bg-slate-900 sticky top-0 text-slate-400 uppercase text-[9px] z-10">
+                  <tr>
+                    <th class="p-2.5">Ibadah Puasa</th>
+                    <th class="p-2.5">Tanggal Masehi</th>
+                    <th class="p-2.5">Tanggal Hijriah</th>
+                    <th class="p-2.5 text-center">Status</th>
+                    <th class="p-2.5 text-center">Aksi</th>
+                  </tr>
+                </thead>
+                <tbody id="calDynamicFastsTableBody" class="divide-y divide-slate-800 text-slate-300">
+                  <!-- Generated dynamically in JS -->
+                </tbody>
+              </table>
+            </div>
+
+            <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 text-[10px] text-slate-400 space-y-1">
+              <b class="text-amber-300 block"><i class="fa-solid fa-circle-info text-amber-400 mr-1"></i> Catatan Navigasi Kalender:</b>
+              <p>
+                Klik tombol <b>"Pilih"</b> pada baris tabel di atas untuk langsung mengonversi dan melihat rincian fase bulan serta status hari ibadah tersebut. Mengubah bulan atau tahun di panel kiri akan otomatis memperbarui seluruh jadwal puasa sunnah di tabel ini.
+              </p>
             </div>
           </div>
         </div>
 
-        <!-- Tabel Puasa Sunnah Bulan Ini -->
-        <div class="cmd-card p-5 space-y-3">
-          <h3 class="text-sm font-bold text-emerald-300 font-tech flex items-center gap-2">
-            <i class="fa-solid fa-list-check text-emerald-400"></i> JADWAL HARI PUASA SUNNAH BULAN INI
-          </h3>
-          <div class="overflow-x-auto rounded-xl border border-slate-800">
-            <table class="w-full text-[10px] border-collapse">
-              <thead class="bg-slate-900 text-slate-400 uppercase text-[9px]">
-                <tr>
-                  <th class="p-2 text-left">Ibadah Puasa</th>
-                  <th class="p-2 text-left">Tanggal Hijriah</th>
-                  <th class="p-2 text-left">Tanggal Masehi</th>
-                  <th class="p-2 text-center">Status</th>
-                </tr>
-              </thead>
-              <tbody class="divide-y divide-slate-800">
-                <tr>
-                  <td class="p-2 font-bold text-cyan-300">Puasa Senin</td>
-                  <td class="p-2 text-slate-300">23 Rabi'ul Akhir 1448 H</td>
-                  <td class="p-2 text-slate-300">5 Oktober 2026</td>
-                  <td class="p-2 text-center"><span class="px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 font-bold">Besok</span></td>
-                </tr>
-                <tr>
-                  <td class="p-2 font-bold text-cyan-300">Puasa Kamis</td>
-                  <td class="p-2 text-slate-300">26 Rabi'ul Akhir 1448 H</td>
-                  <td class="p-2 text-slate-300">8 Oktober 2026</td>
-                  <td class="p-2 text-center"><span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300">Mendatang</span></td>
-                </tr>
-                <tr>
-                  <td class="p-2 font-bold text-amber-300">Ayyamul Bidh (13)</td>
-                  <td class="p-2 text-slate-300">13 Jumadil Ula 1448 H</td>
-                  <td class="p-2 text-slate-300">24 Oktober 2026</td>
-                  <td class="p-2 text-center"><span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 font-bold">Purnama</span></td>
-                </tr>
-                <tr>
-                  <td class="p-2 font-bold text-amber-300">Ayyamul Bidh (14)</td>
-                  <td class="p-2 text-slate-300">14 Jumadil Ula 1448 H</td>
-                  <td class="p-2 text-slate-300">25 Oktober 2026</td>
-                  <td class="p-2 text-center"><span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 font-bold">Purnama</span></td>
-                </tr>
-                <tr>
-                  <td class="p-2 font-bold text-amber-300">Ayyamul Bidh (15)</td>
-                  <td class="p-2 text-slate-300">15 Jumadil Ula 1448 H</td>
-                  <td class="p-2 text-slate-300">26 Oktober 2026</td>
-                  <td class="p-2 text-center"><span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 font-bold">Purnama</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </div>
     </section>
     <!-- ==================== TAB 6: RADAR CUACA, LOG HARIAN & JAM PUASA EFEKTIF ==================== -->
@@ -3045,7 +3177,7 @@
       setTimeout(() => dismissLoaderImmediately(), 1500);
     }
 
-    // ==================== 5. REAL-TIME CLOCK & HIJRI ====================
+        // ==================== 5. REAL-TIME CLOCK & ADVANCED HIJRI CONVERTER ====================
     function gregorianToHijri(y, m, d) {
       if (m < 3) { y -= 1; m += 12; }
       const a = Math.floor(y / 100);
@@ -3070,8 +3202,440 @@
         day: dHijri,
         month: mHijri,
         monthName: hijriMonths[(mHijri - 1) % 12],
-        year: yHijri
+        year: yHijri,
+        julianDay: Math.floor(jd)
       };
+    }
+
+    function getPasaranJawa(y, m, d) {
+      const d0 = new Date(1970, 0, 1); // 1 Jan 1970 = Kamis Wage
+      const target = new Date(y, m - 1, d);
+      const diffTime = target.getTime() - d0.getTime();
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      const pasaran = ['Wage', 'Kliwon', 'Legi', 'Pahing', 'Pon'];
+      let mod = diffDays % 5;
+      if (mod < 0) mod += 5;
+      return pasaran[mod];
+    }
+
+    const ARABIC_DAYS_MAP = [
+      { idName: 'Minggu (Ahad)', arName: 'الأحد', translit: 'Al-Ahad' },
+      { idName: 'Senin', arName: 'الإثنين', translit: 'Al-Itsnayn' },
+      { idName: 'Selasa', arName: 'الثلاثاء', translit: "Ats-Tsulatsa'" },
+      { idName: 'Rabu', arName: 'الأربعاء', translit: "Al-Arbi'a'" },
+      { idName: 'Kamis', arName: 'الخميس', translit: 'Al-Khamis' },
+      { idName: 'Jumat', arName: 'الجمعة', translit: "Al-Jumu'ah" },
+      { idName: 'Sabtu', arName: 'السبت', translit: 'As-Sabt' }
+    ];
+
+    function getMoonPhaseDetails(hijriDay) {
+      if (hijriDay <= 2) {
+        return {
+          icon: "fa-solid fa-moon text-2xl sm:text-3xl text-amber-200",
+          phase: "Hilal Awal (New Crescent)",
+          illum: "~3% - 10%"
+        };
+      } else if (hijriDay <= 6) {
+        return {
+          icon: "fa-solid fa-moon text-2xl sm:text-3xl text-amber-200",
+          phase: "Bulan Sabit Awal (Waxing Crescent)",
+          illum: "~15% - 40%"
+        };
+      } else if (hijriDay <= 9) {
+        return {
+          icon: "fa-solid fa-circle-half-stroke text-2xl sm:text-3xl text-amber-200",
+          phase: "Kuartir Pertama / Perbani Awal (First Quarter)",
+          illum: "~50%"
+        };
+      } else if (hijriDay <= 12) {
+        return {
+          icon: "fa-regular fa-circle text-2xl sm:text-3xl text-amber-200",
+          phase: "Bulan Cembung Awal (Waxing Gibbous)",
+          illum: "~65% - 90%"
+        };
+      } else if (hijriDay <= 16) {
+        return {
+          icon: "fa-solid fa-circle text-2xl sm:text-3xl text-amber-300 drop-shadow-[0_0_15px_#fde047]",
+          phase: "Purnama Penuh / Badr (Full Moon - Ayyamul Bidh)",
+          illum: "98% - 100%"
+        };
+      } else if (hijriDay <= 19) {
+        return {
+          icon: "fa-regular fa-circle text-2xl sm:text-3xl text-amber-200",
+          phase: "Bulan Cembung Akhir (Waning Gibbous)",
+          illum: "~85% - 60%"
+        };
+      } else if (hijriDay <= 22) {
+        return {
+          icon: "fa-solid fa-circle-half-stroke text-2xl sm:text-3xl text-amber-200 transform scale-x-[-1]",
+          phase: "Kuartir Akhir / Perbani Akhir (Last Quarter)",
+          illum: "~50%"
+        };
+      } else if (hijriDay <= 26) {
+        return {
+          icon: "fa-solid fa-moon text-2xl sm:text-3xl text-amber-200 transform scale-x-[-1]",
+          phase: "Bulan Sabit Tua (Waning Crescent)",
+          illum: "~35% - 15%"
+        };
+      } else {
+        return {
+          icon: "fa-regular fa-moon text-2xl sm:text-3xl text-slate-400",
+          phase: "Hilal Akhir / Muhaq (Bulan Mati)",
+          illum: "~8% - 1%"
+        };
+      }
+    }
+
+    function getFastingStatus(hDay, hMonth, gWeekday) {
+      if (hMonth === 9) {
+        return {
+          title: "Puasa Wajib Ramadan",
+          subtitle: "Ibadah Wajib Fardhu 'Ain Seluruh Muslim",
+          icon: "fa-solid fa-moon text-amber-400",
+          boxClass: "bg-amber-950 border-amber-500 text-amber-300"
+        };
+      }
+      if (hMonth === 10 && hDay === 1) {
+        return {
+          title: "Diharamkan Berpuasa",
+          subtitle: "Hari Raya Idul Fitri (1 Syawal)",
+          icon: "fa-solid fa-ban text-rose-400",
+          boxClass: "bg-rose-950 border-rose-500 text-rose-300"
+        };
+      }
+      if (hMonth === 12 && hDay === 10) {
+        return {
+          title: "Diharamkan Berpuasa",
+          subtitle: "Hari Raya Idul Adha (10 Dzulhijjah)",
+          icon: "fa-solid fa-ban text-rose-400",
+          boxClass: "bg-rose-950 border-rose-500 text-rose-300"
+        };
+      }
+      if (hMonth === 12 && [11, 12, 13].includes(hDay)) {
+        return {
+          title: "Diharamkan Berpuasa",
+          subtitle: `Hari Tasyrik (${hDay} Dzulhijjah)`,
+          icon: "fa-solid fa-ban text-rose-400",
+          boxClass: "bg-rose-950 border-rose-500 text-rose-300"
+        };
+      }
+      if (hMonth === 12 && hDay === 9) {
+        return {
+          title: "Puasa Sunnah Arafah",
+          subtitle: "Menghapus Dosa Setahun Lalu & Mendatang",
+          icon: "fa-solid fa-star text-emerald-400",
+          boxClass: "bg-emerald-950 border-emerald-500 text-emerald-300"
+        };
+      }
+      if (hMonth === 1 && hDay === 9) {
+        return {
+          title: "Puasa Sunnah Tasu'a",
+          subtitle: "Sunnah Nabi SAW 9 Muharram",
+          icon: "fa-solid fa-hands-praying text-emerald-400",
+          boxClass: "bg-emerald-950 border-emerald-500 text-emerald-300"
+        };
+      }
+      if (hMonth === 1 && hDay === 10) {
+        return {
+          title: "Puasa Sunnah Asyura",
+          subtitle: "Menghapus Dosa Setahun yang Lalu",
+          icon: "fa-solid fa-star text-emerald-400",
+          boxClass: "bg-emerald-950 border-emerald-500 text-emerald-300"
+        };
+      }
+      if ([13, 14, 15].includes(hDay)) {
+        return {
+          title: "Puasa Ayyamul Bidh",
+          subtitle: `Hari Putih Purnama (Tgl ${hDay} Hijriah)`,
+          icon: "fa-solid fa-circle text-amber-300",
+          boxClass: "bg-amber-950 border-amber-500 text-amber-300"
+        };
+      }
+      if (gWeekday === 1) { // Senin
+        return {
+          title: "Puasa Sunnah Senin",
+          subtitle: "Hari Lahir & Turunnya Wahyu Nabi SAW",
+          icon: "fa-solid fa-calendar-check text-cyan-400",
+          boxClass: "bg-cyan-950 border-cyan-500 text-cyan-300"
+        };
+      }
+      if (gWeekday === 4) { // Kamis
+        return {
+          title: "Puasa Sunnah Kamis",
+          subtitle: "Hari Diangkatnya Amalan Hamba kepada Allah",
+          icon: "fa-solid fa-calendar-check text-cyan-400",
+          boxClass: "bg-cyan-950 border-cyan-500 text-cyan-300"
+        };
+      }
+      if (hMonth === 10 && hDay >= 2 && hDay <= 7) {
+        return {
+          title: "Puasa 6 Hari Syawal",
+          subtitle: "Pahala Berpuasa Setahun Penuh",
+          icon: "fa-solid fa-hands-praying text-teal-400",
+          boxClass: "bg-teal-950 border-teal-500 text-teal-300"
+        };
+      }
+      return {
+        title: "Hari Boleh Berpuasa",
+        subtitle: "Dianjurkan Puasa Daud, Qadha, atau Nadzar",
+        icon: "fa-regular fa-calendar text-slate-400",
+        boxClass: "bg-slate-900 border-slate-700 text-slate-300"
+      };
+    }
+
+    let currentConverterDate = { y: 2026, m: 10, d: 12 };
+
+    function updateDaySelectOptions(maxDays, selectedDay) {
+      const sel = document.getElementById('calDaySelect');
+      if (!sel) return;
+      sel.innerHTML = '';
+      for (let i = 1; i <= maxDays; i++) {
+        const opt = document.createElement('option');
+        opt.value = i;
+        opt.textContent = String(i).padStart(2, '0');
+        if (i === selectedDay) opt.selected = true;
+        sel.appendChild(opt);
+      }
+    }
+
+    function setConverterDate(y, m, d, suppressTableUpdate) {
+      const maxDays = new Date(y, m, 0).getDate();
+      if (d > maxDays) d = maxDays;
+      if (d < 1) d = 1;
+
+      currentConverterDate = { y, m, d };
+      const mStr = String(m).padStart(2, '0');
+      const dStr = String(d).padStart(2, '0');
+      const dateStr = `${y}-${mStr}-${dStr}`;
+
+      const calInput = document.getElementById('calGregorianInput');
+      if (calInput) calInput.value = dateStr;
+
+      updateDaySelectOptions(maxDays, d);
+
+      const monthSel = document.getElementById('calMonthSelect');
+      if (monthSel) monthSel.value = m;
+
+      const yearInput = document.getElementById('calYearInput');
+      if (yearInput) yearInput.value = y;
+
+      runHijriConversion(dateStr);
+
+      if (!suppressTableUpdate) {
+        renderDynamicSunnahFasts(y, m, d);
+      }
+    }
+
+    function setConverterToDeviceToday() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = now.getMonth() + 1;
+      const d = now.getDate();
+      setConverterDate(y, m, d);
+      if (typeof showToast === 'function') {
+        showToast("Kalender Disinkronkan ke Tanggal Perangkat Hari Ini!", "success");
+      }
+    }
+
+    function onDatepickerChange(val) {
+      if (!val) return;
+      const parts = val.split('-');
+      const y = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      const d = parseInt(parts[2], 10);
+      setConverterDate(y, m, d);
+    }
+
+    function onSeparateDateChange() {
+      const dVal = parseInt(document.getElementById('calDaySelect')?.value || '1', 10);
+      const mVal = parseInt(document.getElementById('calMonthSelect')?.value || '1', 10);
+      const yVal = parseInt(document.getElementById('calYearInput')?.value || '2026', 10);
+      setConverterDate(yVal, mVal, dVal);
+    }
+
+    function adjustConverterDate(deltaY, deltaM, deltaD) {
+      const curY = currentConverterDate.y || 2026;
+      const curM = currentConverterDate.m || 10;
+      const curD = currentConverterDate.d || 12;
+
+      const nextDate = new Date(curY + deltaY, (curM - 1) + deltaM, curD + deltaD);
+      setConverterDate(nextDate.getFullYear(), nextDate.getMonth() + 1, nextDate.getDate());
+    }
+
+    function runHijriConversion(dateVal) {
+      if (!dateVal) return;
+      const parts = dateVal.split('-');
+      const y = parseInt(parts[0], 10);
+      const m = parseInt(parts[1], 10);
+      const d = parseInt(parts[2], 10);
+      const res = gregorianToHijri(y, m, d);
+
+      const days = ['Ahad (Minggu)', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+      const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      const inputDate = new Date(y, m - 1, d);
+      const gWeekday = inputDate.getDay();
+      const dayName = days[gWeekday];
+      const arDay = ARABIC_DAYS_MAP[gWeekday];
+      const pasaran = getPasaranJawa(y, m, d);
+
+      const elRes = document.getElementById('calHijriResult');
+      if (elRes) elRes.innerText = `${res.day} ${res.monthName} ${res.year} H`;
+
+      const elDay = document.getElementById('calDayName');
+      if (elDay) {
+        elDay.innerHTML = `<span>Hari ${dayName}</span> &bull; <span class="font-arabic text-amber-300 text-sm">${arDay.arName} (${arDay.translit})</span> &bull; <span class="text-emerald-400 font-bold">${pasaran}</span>`;
+      }
+
+      const elGregBadge = document.getElementById('calGregorianDisplayBadge');
+      if (elGregBadge) elGregBadge.innerText = `${d} ${months[m - 1]} ${y} M`;
+
+      const elFullGreg = document.getElementById('calFullGregorianDetail');
+      if (elFullGreg) elFullGreg.innerText = `${dayName} ${pasaran}, ${d} ${months[m - 1]} ${y} Masehi`;
+
+      const elJd = document.getElementById('calJulianDay');
+      if (elJd) elJd.innerText = `Julian Day: ${res.julianDay}`;
+
+      const moonDetails = getMoonPhaseDetails(res.day);
+      const icon = document.getElementById('calMoonIcon');
+      const text = document.getElementById('calMoonPhaseText');
+      const illum = document.getElementById('calMoonIllumination');
+      if (icon) icon.className = moonDetails.icon;
+      if (text) text.innerText = moonDetails.phase;
+      if (illum) illum.innerText = `Iluminasi: ${moonDetails.illum}`;
+
+      const fasting = getFastingStatus(res.day, res.month, gWeekday);
+      const fText = document.getElementById('calFastingStatusText');
+      const fSub = document.getElementById('calFastingCategoryText');
+      const fBox = document.getElementById('calFastingIconBox');
+      if (fText) fText.innerText = fasting.title;
+      if (fSub) fSub.innerText = fasting.subtitle;
+      if (fBox) {
+        fBox.className = `w-9 h-9 rounded-lg flex items-center justify-center shrink-0 text-base border ${fasting.boxClass}`;
+        fBox.innerHTML = `<i class="${fasting.icon}"></i>`;
+      }
+
+      const now = new Date();
+      const isDeviceToday = (y === now.getFullYear() && m === (now.getMonth() + 1) && d === now.getDate());
+      const deviceBadge = document.getElementById('calLiveDeviceBadge');
+      if (deviceBadge) {
+        if (isDeviceToday) {
+          deviceBadge.innerHTML = `<span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span><span>Tersinkron Hari Ini (${dayName})</span>`;
+          deviceBadge.className = "px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-300 border border-emerald-500 text-[9px] font-bold flex items-center gap-1.5 shadow";
+        } else {
+          deviceBadge.innerHTML = `<i class="fa-solid fa-clock-rotate-left text-cyan-400"></i><span>Mode Penelusuran Tanggal</span>`;
+          deviceBadge.className = "px-2.5 py-0.5 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-500 text-[9px] font-bold flex items-center gap-1.5 shadow";
+        }
+      }
+    }
+
+    function renderDynamicSunnahFasts(year, month, activeDay) {
+      const tbody = document.getElementById('calDynamicFastsTableBody');
+      const subTitle = document.getElementById('calTableMonthSubtitle');
+      if (!tbody) return;
+
+      const monthNames = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+      const maxDays = new Date(year, month, 0).getDate();
+
+      const hStart = gregorianToHijri(year, month, 1);
+      const hEnd = gregorianToHijri(year, month, maxDays);
+      if (subTitle) {
+        const hRangeStr = (hStart.monthName === hEnd.monthName)
+          ? `${hStart.monthName} ${hStart.year} H`
+          : `${hStart.monthName} - ${hEnd.monthName} ${hEnd.year} H`;
+        subTitle.innerText = `Dihitung otomatis untuk: ${monthNames[month - 1]} ${year} M / ${hRangeStr}`;
+      }
+
+      tbody.innerHTML = '';
+      const now = new Date();
+      const todayY = now.getFullYear();
+      const todayM = now.getMonth() + 1;
+      const todayD = now.getDate();
+
+      let fastCount = 0;
+
+      for (let day = 1; day <= maxDays; day++) {
+        const dt = new Date(year, month - 1, day);
+        const weekday = dt.getDay(); // 0=Sun, 1=Mon, ..., 4=Thu
+        const hRes = gregorianToHijri(year, month, day);
+
+        let fastType = null;
+        let badgeColor = "bg-slate-800 text-slate-300";
+
+        if (hRes.month === 9) {
+          fastType = `Puasa Wajib Ramadan (${hRes.day} Ramadan)`;
+          badgeColor = "bg-amber-950 text-amber-300 border border-amber-600";
+        } else if (hRes.month === 12 && hRes.day === 9) {
+          fastType = "Puasa Sunnah Hari Arafah";
+          badgeColor = "bg-emerald-950 text-emerald-300 border border-emerald-500";
+        } else if (hRes.month === 1 && hRes.day === 9) {
+          fastType = "Puasa Sunnah Tasu'a";
+          badgeColor = "bg-emerald-950 text-emerald-300 border border-emerald-500";
+        } else if (hRes.month === 1 && hRes.day === 10) {
+          fastType = "Puasa Sunnah Asyura";
+          badgeColor = "bg-emerald-950 text-emerald-300 border border-emerald-500";
+        } else if ([13, 14, 15].includes(hRes.day) && !(hRes.month === 12 && [11, 12, 13].includes(hRes.day))) {
+          fastType = `Puasa Ayyamul Bidh (${hRes.day})`;
+          badgeColor = "bg-amber-950 text-amber-300 border border-amber-600";
+        } else if (weekday === 1) { // Senin
+          fastType = "Puasa Sunnah Senin";
+          badgeColor = "bg-cyan-950 text-cyan-300 border border-cyan-600";
+        } else if (weekday === 4) { // Kamis
+          fastType = "Puasa Sunnah Kamis";
+          badgeColor = "bg-cyan-950 text-cyan-300 border border-cyan-600";
+        }
+
+        if (fastType) {
+          fastCount++;
+          const isSelected = (day === activeDay);
+          const isToday = (year === todayY && month === todayM && day === todayD);
+
+          let statusBadge = '';
+          if (isSelected) {
+            statusBadge = '<span class="px-2 py-0.5 rounded-full bg-cyan-500 text-slate-950 font-black text-[9px]">Terpilih</span>';
+          } else if (isToday) {
+            statusBadge = '<span class="px-2 py-0.5 rounded-full bg-emerald-500 text-slate-950 font-black text-[9px] animate-pulse">Hari Ini</span>';
+          } else if (year < todayY || (year === todayY && month < todayM) || (year === todayY && month === todayM && day < todayD)) {
+            statusBadge = '<span class="px-2 py-0.5 rounded bg-slate-800 text-slate-400 text-[9px]">Terlewati</span>';
+          } else {
+            statusBadge = '<span class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-[9px]">Mendatang</span>';
+          }
+
+          const tr = document.createElement('tr');
+          tr.className = isSelected ? "bg-cyan-950/40 border-l-2 border-l-cyan-400" : "hover:bg-slate-900/60 transition";
+          tr.innerHTML = `
+            <td class="p-2.5 font-bold ${badgeColor.includes('amber') ? 'text-amber-300' : 'text-cyan-300'} whitespace-nowrap">
+              <i class="fa-solid fa-moon mr-1 text-xs"></i> ${fastType}
+            </td>
+            <td class="p-2.5 text-slate-200 whitespace-nowrap font-mono">
+              ${day} ${monthNames[month - 1]} ${year}
+            </td>
+            <td class="p-2.5 text-slate-300 whitespace-nowrap font-mono">
+              ${hRes.day} ${hRes.monthName} ${hRes.year} H
+            </td>
+            <td class="p-2.5 text-center whitespace-nowrap">
+              ${statusBadge}
+            </td>
+            <td class="p-2.5 text-center whitespace-nowrap">
+              <button type="button" onclick="setConverterDate(${year}, ${month}, ${day})" class="px-2 py-1 rounded bg-slate-800 hover:bg-cyan-600 hover:text-slate-950 text-cyan-300 border border-slate-700 text-[9px] font-bold transition cursor-pointer">
+                Pilih
+              </button>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        }
+      }
+
+      if (fastCount === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-slate-400">Tidak ada jadwal puasa sunnah teridentifikasi pada bulan ini.</td></tr>`;
+      }
+    }
+
+    function initHijriConverter() {
+      const now = new Date();
+      const y = now.getFullYear();
+      const m = now.getMonth() + 1;
+      const d = now.getDate();
+      setConverterDate(y, m, d);
     }
 
     function updateLiveClock() {
@@ -3091,37 +3655,6 @@
       if (ssClock) ssClock.innerText = tStr;
       const ssDate = document.getElementById('screensaverDate');
       if (ssDate) ssDate.innerText = dStr;
-    }
-
-    function runHijriConversion(dateVal) {
-      if (!dateVal) return;
-      const parts = dateVal.split('-');
-      const y = parseInt(parts[0], 10);
-      const m = parseInt(parts[1], 10);
-      const d = parseInt(parts[2], 10);
-      const res = gregorianToHijri(y, m, d);
-
-      const days = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-      const inputDate = new Date(y, m - 1, d);
-      const dayName = days[inputDate.getDay()];
-
-      const elRes = document.getElementById('calHijriResult');
-      if (elRes) elRes.innerText = `${res.day} ${res.monthName} ${res.year} H`;
-      const elDay = document.getElementById('calDayName');
-      if (elDay) elDay.innerText = `Hari ${dayName}`;
-
-      const icon = document.getElementById('calMoonIcon');
-      const text = document.getElementById('calMoonPhaseText');
-      if (res.day <= 3) {
-        if (icon) icon.className = "fa-solid fa-moon text-2xl text-amber-200";
-        if (text) text.innerText = "Hilal Awal (Waxing Crescent)";
-      } else if (res.day >= 12 && res.day <= 16) {
-        if (icon) icon.className = "fa-regular fa-circle text-2xl text-amber-200";
-        if (text) text.innerText = "Bulan Purnama Penuh (Badr / Ayyamul Bidh)";
-      } else {
-        if (icon) icon.className = "fa-solid fa-moon text-2xl text-amber-200";
-        if (text) text.innerText = "Bulan Sabit Akhir (Waning Crescent)";
-      }
     }
 
     // ==================== 6. SPEECH SYNTHESIS AUDIO ====================
@@ -3848,7 +4381,7 @@ Landasan: QS. Yunus: 5, Hadiah Nobel Medis 2016 & Muktamar Kalender Islam Istanb
       try { initLoaderEarth(); } catch(e) {}
       try { initBgEarth(); } catch(e) {}
       try { updateLiveClock(); setInterval(updateLiveClock, 1000); } catch(e) {}
-      try { runHijriConversion('2026-10-04'); } catch(e) {}
+      try { initHijriConverter(); } catch(e) {}
       try { renderWeatherLogs(); } catch(e) {}
       try { initSiriState(); } catch(e) {}
       try {
